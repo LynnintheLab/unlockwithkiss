@@ -1,7 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = new URL(process.env.SITE_URL || "https://loveu.lynninthelab.space");
+
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "For Mama",
+    title: "For Mama — A little corner, just for you",
+    description: "Even on the quiet days, it’s still you. Little moments, saved with love.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "For Mama — A little corner, just for you",
+    description: "Even on the quiet days, it’s still you. Little moments, saved with love.",
+    images: [{ url: "/opengraph-image", alt: "For Mama. Even on the quiet days, it’s still you." }],
+  },
   title: "For Mama — Our little corner",
   description: "Little moments, saved just for you.",
   robots: { index: false, follow: false },

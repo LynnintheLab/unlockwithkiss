@@ -67,3 +67,9 @@ The initial state is locked. `DRIVE_URL` seeds the database only on first use. A
 - [Hostinger: deploy Codex apps via GitHub](https://www.hostinger.com/support/how-to-deploy-apps-built-with-codex-on-hostinger/)
 - [Hostinger: connect MySQL to Node.js](https://www.hostinger.com/support/connecting-a-hostinger-mysql-database-to-a-node-js-application/)
 - [Next.js: Node.js deployment](https://nextjs.org/docs/app/getting-started/deploying)
+
+## Link previews in messaging apps
+
+The homepage publishes Open Graph and Twitter preview tags and a public 1200×630 PNG at `/opengraph-image`. It contains only a romantic message, never the Drive link or login details. The default public address is `https://loveu.lynninthelab.space`; set optional `SITE_URL` before building if you change the domain. Keep `APP_URL` set to your actual site origin for authentication.
+
+After deploying a preview update, paste the link into a new message and allow time for the preview to load. Old messages or messaging-app caches may keep the previous preview. Preview availability and size are ultimately controlled by the messaging app and its settings.
