@@ -32,3 +32,5 @@ For browser tests, start the app against a **dedicated test database**, set `TES
 Do not point tests at your live diary. No real passwords or Drive URL are stored in this repository.
 
 The three photographs in `public/photos/` were supplied by the site owner for this personal website. The hand-holding photograph is also used in the public link-preview card.
+
+Myanmar controls and the personal note use the supplied Walone Regular and Thin fonts, served locally. The diary button opens the note with a slideshow before the Google Drive link. Both slideshows include all 11 supplied slideshow photographs, with pause and manual navigation; reduced-motion preferences disable autoplay. Web-sized slideshow copies are in `public/slideshow/`.

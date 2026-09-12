@@ -49,7 +49,7 @@ If your temporary domain is assigned only after the first deployment, add that e
 2. Visit `/admin`, sign in, and check that your Drive link is present.
 3. Visit `/` in a separate/private browser. Either Burmese answer leads to the guest password form.
 4. Enter the guest password. The kiss message appears; the Drive link stays hidden.
-5. In admin, choose **Yes, unlock for her**. Her page updates within five seconds.
+5. In admin, choose **Yes, unlock for her**. Her page updates within five seconds. **Open our little diary** now opens your Myanmar note with a photo slideshow; **Watch the videos** inside it opens the Drive folder.
 6. Choose **Lock the diary again** when you want to restore the lock.
 
 The initial state is locked. `DRIVE_URL` seeds the database only on first use. Afterward, change the link in `/admin`; restarts and deployments do not reset saved settings. MySQL stores settings and sessions independently of the app's build directory. Keep the same database credentials for future deploys.
@@ -73,3 +73,5 @@ The initial state is locked. `DRIVE_URL` seeds the database only on first use. A
 The homepage publishes Open Graph and Twitter preview tags and a public 1200×630 PNG at `/opengraph-image`. It contains a romantic message and the owner-supplied hand-holding photograph, never the Drive link or login details. The default public address is `https://loveu.lynninthelab.space`; set optional `SITE_URL` before building if you change the domain. Keep `APP_URL` set to your actual site origin for authentication.
 
 After deploying a preview update, paste the link into a new message and allow time for the preview to load. Old messages or messaging-app caches may keep the previous preview. Preview availability and size are ultimately controlled by the messaging app and its settings.
+
+The supplied Walone Regular and Thin fonts and all 11 slideshow photos are bundled with the app. No new environment variables or database changes are needed for the personal note or slideshows.

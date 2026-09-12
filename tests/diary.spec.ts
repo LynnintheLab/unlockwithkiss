@@ -26,8 +26,12 @@ test('server-side gates, admin controls, saved link, two-browser polling, mobile
     const testLink='https://drive.google.com/drive/folders/test-changed-folder';
     await admin.getByLabel('Google Drive link').fill(testLink);await admin.getByRole('button',{name:'Save link'}).click();await expect(admin.getByRole('status')).toContainText('saved');
     await admin.reload();await expect(admin.getByLabel('Google Drive link')).toHaveValue(testLink);
-    await admin.getByRole('button',{name:'Yes, unlock for her'}).click();await expect(page.getByRole('link',{name:'Open our little diary'})).toHaveAttribute('href',testLink,{timeout:12000});
+    await admin.getByRole('button',{name:'Yes, unlock for her'}).click();await expect(page.getByRole('button',{name:'Open our little diary'})).toBeVisible({timeout:12000});
+    await page.getByRole('button',{name:'Open our little diary'}).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.getByRole('link',{name:'Watch the videos'})).toHaveAttribute('href',testLink);
     await admin.getByRole('button',{name:'Lock the diary again'}).click();await expect(page.getByText('To unlock, U need to give a big kiss to your boy')).toBeVisible({timeout:12000});
+    await expect(page.getByRole('dialog')).toHaveCount(0);
     await page.getByRole('button',{name:'Sign out'}).click();await page.getByRole('button',{name:'မဆိုးတော့ဘူး'}).click();await expect(page.getByText('That made my day. There’s something here for you.')).toBeVisible();
     await page.getByRole('button',{name:'Back',exact:true}).click();await page.setViewportSize({width:390,height:844});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
