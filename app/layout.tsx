@@ -8,18 +8,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    siteName: "For Mama",
-    title: "For Mama — A little corner, just for you",
+    siteName: "For AThel",
+    title: "For AThel — A little corner, just for you",
     description: "Even on the quiet days, it’s still you. Little moments, saved with love.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "For Mama — A little corner, just for you",
+    title: "For AThel — A little corner, just for you",
     description: "Even on the quiet days, it’s still you. Little moments, saved with love.",
-    images: [{ url: "/opengraph-image", alt: "For Mama. Even on the quiet days, it’s still you." }],
+    images: [{ url: "/opengraph-image", alt: "For AThel. Even on the quiet days, it’s still you." }],
   },
-  title: "For Mama — Our little corner",
+  title: "For AThel — Our little corner",
   description: "Little moments, saved just for you.",
   robots: { index: false, follow: false },
   icons: {

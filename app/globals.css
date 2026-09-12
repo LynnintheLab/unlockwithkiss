@@ -10,3 +10,71 @@
 @media(max-width:900px){.page-layout{gap:5%;padding-inline:4%}.topbar{padding-inline:4%}.letter{padding:40px 30px;min-height:580px}.letter h1{font-size:48px}.panel h2{font-size:29px}.panel h2.burmese{font-size:25px}.interaction{padding-inline:6px}}
 @media(max-width:680px){.topbar{height:80px;padding:0 24px}.wordmark{font-size:22px}.top-note{display:none}.logout{margin-left:auto}.page-layout{display:flex;flex-direction:column;padding:8px 22px 24px;gap:35px}.letter{min-height:0;width:100%;padding:30px;border-radius:4px 48px 4px 4px}.letter-label{margin-bottom:15px;font-size:12px}.letter h1{font-size:40px;margin-bottom:0;line-height:1.18}.letter h1 br:first-child{display:none}.letter h1 br:first-child:after{content:' '}.letter p,.letter-bottom{display:none}.signature{font-size:18px;margin-top:20px;gap:12px}.interaction{padding:3px 8px 15px}.symbol{height:60px;width:60px;margin-bottom:20px}.symbol svg{width:27px;height:27px}.panel h2.burmese{font-size:27px}.panel h2{font-size:29px}.panel>p{font-size:15px;margin-bottom:24px}.choices{margin-top:26px}.under-panel{margin-top:38px;font-size:12px}.tiny-note{font-size:12px}.admin-site .letter{min-height:0}.admin-site .letter h1{font-size:34px}.admin-site .letter h1 br{display:block}footer{padding:0 25px 24px;font-size:12px}.back{top:8px}.panel .unlock-message{font-size:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* A photograph and a little note, with two more memories below. */
+.photo-letter.letter {
+  min-height: 0;
+  padding: 0;
+  justify-content: flex-start;
+  border-radius: 6px 64px 6px 6px;
+  overflow: hidden;
+}
+.cover-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.letter-copy { padding: 32px 36px 36px; }
+.photo-letter .letter-label { display: block; margin-bottom: 18px; }
+.photo-letter h1, .admin-site .photo-letter h1 {
+  font-size: clamp(34px, 3.5vw, 48px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.photo-letter p { max-width: 42ch; }
+.photo-letter .signature { margin-top: 24px; font-size: 22px; }
+.memories {
+  margin: 20px 6% 48px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: .7fr 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.memories-note {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 30px;
+  line-height: 1.35;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.memories-note span:last-of-type { font-style: italic; color: var(--primary); }
+.memories-note svg { margin-top: 20px; color: var(--primary); }
+.memories figure { margin: 0; }
+.memories img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.memories figcaption { font-size: 14px; line-height: 1.5; margin-top: 12px; color: var(--muted-foreground); }
+@media(max-width:900px) {
+  .letter-copy { padding: 26px; }
+  .memories { margin-inline: 4%; gap: 24px; grid-template-columns: .6fr 1fr 1fr; }
+  .memories-note { font-size: 25px; }
+}
+@media(max-width:680px) {
+  .page-layout { gap: 34px; }
+  .interaction { order: -1; padding-top: 20px; }
+  .photo-letter.letter { border-radius: 4px 40px 4px 4px; }
+  .letter-copy { padding: 26px; }
+  .photo-letter h1, .admin-site .photo-letter h1 { font-size: 34px; }
+  .photo-letter h1 br, .photo-letter h1 br:first-child { display: none; }
+  .photo-letter h1 em { display: block; }
+  .photo-letter p { display: block; font-size: 15px; }
+  .photo-letter .letter-label { font-size: 13px; }
+  .photo-letter .signature { font-size: 20px; }
+  .memories { margin: 0 22px 36px; padding-top: 14px; border: 0; gap: 24px; grid-template-columns: 1fr; }
+  .memories-note { display: none; }
+  .memories figcaption { font-size: 14px; margin-top: 10px; }
+}

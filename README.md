@@ -1,4 +1,4 @@
-# Unlock with a Kiss
+# For AThel — Unlock with a Kiss
 
 A little daily-video diary, with a private admin panel.
 
@@ -30,3 +30,5 @@ npm start
 For browser tests, start the app against a **dedicated test database**, set `TEST_BASE_URL`, `TEST_ADMIN_PASSWORD`, and `TEST_GUEST_PASSWORD`, then run `npm test`. Tests unlock and relock the test diary. Playwright requires Chromium (`npx playwright install chromium`) or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` pointing to a local Chrome executable.
 
 Do not point tests at your live diary. No real passwords or Drive URL are stored in this repository.
+
+The three photographs in `public/photos/` were supplied by the site owner for this personal website. The hand-holding photograph is also used in the public link-preview card.

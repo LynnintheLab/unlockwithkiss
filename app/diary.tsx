@@ -12,9 +12,17 @@ export default function Diary({admin=false}:{admin?:boolean}) {
  async function action(action:string){setBusy(true);setError('');setNotice('');try{const res=await fetch('/api/diary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,password,drive,role:admin?'admin':'guest'})});const d=await res.json() as {error?:string};if(!res.ok)throw new Error(d.error);const next=await refresh();if(action==='login'){setPassword('');if(admin)setDrive(next.drive||'');}if(action==='logout'){setStep('question');setMood('');setPassword('');}if(action==='save')setNotice('Your link is saved.');if(action==='unlock')setNotice('Unlocked. Her page will update in a few seconds.');if(action==='lock')setNotice('The diary is locked again.');}catch(e){setError(e instanceof Error?e.message:'Something went wrong. Please try again.');}finally{setBusy(false);}}
  const loggedIn=state.authenticated&&(!admin||state.role==='admin');
  return <main className={admin?'site admin-site':'site'}>
-  <header className="topbar"><a className="wordmark" href="/" aria-label="For Mama home"><Heart size={21} strokeWidth={1.5}/> for mama<span className="wordmark-period">.</span></a><span className="top-note">{admin?'Just for your boy':'A little closer, even from here.'}</span>{loggedIn&&<Button variant="ghost" className="logout" onClick={()=>action('logout')} disabled={busy}><LogOut size={16}/><span>Sign out</span></Button>}</header>
+  <header className="topbar"><a className="wordmark" href="/" aria-label="For AThel home"><Heart size={21} strokeWidth={1.5}/> For AThel<span className="wordmark-period">.</span></a><span className="top-note">{admin?'Just for your boy':'A little closer, even from here.'}</span>{loggedIn&&<Button variant="ghost" className="logout" onClick={()=>action('logout')} disabled={busy}><LogOut size={16}/><span>Sign out</span></Button>}</header>
   <div className="page-layout">
-   <aside className="letter"><span className="letter-label">{admin?'Behind the little moments':'A little piece of my day, for you'}</span><h1>{admin?<>Made for her.<br/><em>Opened by you.</em></>:<>Even on the<br/> quiet days,<br/><em>it’s still you.</em></>}</h1><p>{admin?'Your videos, one link, and the moment you let her in.':'I’m saving the little moments I wish I could tell you about. They’ll be right here, whenever you’re ready.'}</p><div className="signature">{admin?'with a little help from love':'always, your boy'}<Heart size={17}/></div><span className="letter-bottom">One little corner. Just us two.</span></aside>
+   <aside className="letter photo-letter">
+    <img className="cover-photo" src="/photos/always-us.jpg" width="1086" height="724" alt="A happy moment together in the hills, carrying you in my arms." fetchPriority="high"/>
+    <div className="letter-copy">
+     <span className="letter-label">{admin?'Behind the little moments':'A little piece of my day, for you'}</span>
+     <h1>{admin?<>Made for her.<br/><em>Opened by you.</em></>:<>Even on the quiet days,<br/><em>it’s still you.</em></>}</h1>
+     <p>{admin?'Your videos, one link, and the moment you let her in.':'I’m saving the little moments I wish I could tell you about. They’ll be right here, whenever you’re ready.'}</p>
+     <div className="signature">{admin?'with a little help from love':'always, your boy'}<Heart size={17}/></div>
+    </div>
+   </aside>
    <section className="interaction" aria-label={admin?'Admin panel':'Your private diary'}>
     <div className="panel" key={!ready?'loading':admin?'admin':loggedIn?'diary':step}>
     {!ready?<><div className="symbol"><Heart/></div><h2>One little moment…</h2><p>Opening our corner.</p></>:admin&&loggedIn?<>
@@ -31,6 +39,12 @@ export default function Diary({admin=false}:{admin?:boolean}) {
     {error&&<p className="feedback error" role="alert">{error}</p>}{notice&&<p className="feedback success" role="status"><Check size={16}/>{notice}</p>}
     </div><div className="under-panel"><Heart size={12}/> made with love, and a little missing you</div>
    </section>
-  </div><footer><span>Little days. Big feelings.</span><span>Just for you ♡</span></footer>
+  </div>
+  {!admin&&<section className="memories" aria-label="Our little moments">
+    <div className="memories-note"><span>One little corner.</span><span>Just us two.</span><Heart size={22} strokeWidth={1.3}/></div>
+    <figure><img src="/photos/little-kindness.jpg" width="1086" height="724" loading="lazy" alt="Sharing a jacket on a breezy day in the hills."/><figcaption>It’s in the little things.</figcaption></figure>
+    <figure><img src="/photos/hand-in-hand.jpg" width="1086" height="724" loading="lazy" alt="Our hands held together, with sheep grazing behind us."/><figcaption>And always, your hand in mine.</figcaption></figure>
+  </section>}
+  <footer><span>Little days. Big feelings.</span><span>Just for you ♡</span></footer>
  </main>;
 }
