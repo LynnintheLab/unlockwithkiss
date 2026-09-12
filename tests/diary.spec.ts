@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+const adminPassword=process.env.TEST_ADMIN_PASSWORD;
+const guestPassword=process.env.TEST_GUEST_PASSWORD;
+if(!adminPassword||!guestPassword)throw new Error('Set TEST_ADMIN_PASSWORD and TEST_GUEST_PASSWORD for a dedicated test deployment.');
+test('server-side gates, admin controls, saved link, two-browser polling, mobile layout',async({page,browser,baseURL})=>{
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  const owner=await browser.newContext({baseURL});const admin=await owner.newPage();
+  await admin.goto('/admin');await admin.getByLabel('Admin password').fill(adminPassword!);
+  await admin.getByRole('button',{name:'Sign in',exact:true}).click();await expect(admin.getByLabel('Google Drive link')).toBeVisible();
+  const originalLink=await admin.getByLabel('Google Drive link').inputValue();
+  const post=(action:string,extra:Record<string,string>={})=>owner.request.post('/api/diary',{headers:{origin:baseURL!},data:{action,...extra}});
+  await post('lock');
+  try {
+    await page.goto('/');await expect(page.getByRole('button',{name:'ဆိုးနေတုန်းပဲ'})).toBeVisible();
+    const anonymous=await (await page.request.get('/api/diary')).json();expect(anonymous).toEqual({authenticated:false});
+    expect((await page.request.post('/api/diary',{headers:{origin:baseURL!},data:{action:'unlock'}})).status()).toBe(403);
+    expect((await page.request.post('/api/diary',{headers:{origin:'https://other.example'},data:{action:'login',password:guestPassword}})).status()).toBe(403);
+    await page.getByRole('button',{name:'ဆိုးနေတုန်းပဲ'}).click();await page.getByLabel('Our password').fill('incorrect');
+    await page.getByRole('button',{name:'A little closer',exact:true}).click();await expect(page.locator('.feedback[role="alert"]')).toContainText('isn’t quite right');
+    await page.getByLabel('Our password').fill(guestPassword!);await page.getByRole('button',{name:'A little closer',exact:true}).click();
+    await expect(page.getByText('To unlock, U need to give a big kiss to your boy')).toBeVisible();
+    const locked=await (await page.request.get('/api/diary')).json();expect(locked.unlocked).toBe(false);expect(locked.drive).toBeUndefined();
+    const cookies=await page.context().cookies();expect(cookies.find(c=>c.name==='diary_session')?.httpOnly).toBe(true);
+    expect((await page.request.post('/api/diary',{headers:{origin:baseURL!},data:{action:'unlock'}})).status()).toBe(403);
+    await admin.getByLabel('Google Drive link').fill('https://example.com/not-drive');await admin.getByRole('button',{name:'Save link'}).click();await expect(admin.locator('.feedback[role="alert"]')).toContainText('drive.google.com');
+    const testLink='https://drive.google.com/drive/folders/test-changed-folder';
+    await admin.getByLabel('Google Drive link').fill(testLink);await admin.getByRole('button',{name:'Save link'}).click();await expect(admin.getByRole('status')).toContainText('saved');
+    await admin.reload();await expect(admin.getByLabel('Google Drive link')).toHaveValue(testLink);
+    await admin.getByRole('button',{name:'Yes, unlock for her'}).click();await expect(page.getByRole('link',{name:'Open our little diary'})).toHaveAttribute('href',testLink,{timeout:12000});
+    await admin.getByRole('button',{name:'Lock the diary again'}).click();await expect(page.getByText('To unlock, U need to give a big kiss to your boy')).toBeVisible({timeout:12000});
+    await page.getByRole('button',{name:'Sign out'}).click();await page.getByRole('button',{name:'မဆိုးတော့ဘူး'}).click();await expect(page.getByText('That made my day. There’s something here for you.')).toBeVisible();
+    await page.getByRole('button',{name:'Back',exact:true}).click();await page.setViewportSize({width:390,height:844});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+    expect(errors).toEqual([]);
+  } finally {await post('lock');if(originalLink)await post('save',{drive:originalLink});await owner.close();}
+});
