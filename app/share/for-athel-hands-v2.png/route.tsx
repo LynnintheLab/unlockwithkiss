@@ -2,13 +2,13 @@ import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+// A new pathname prevents messaging apps from reusing the former For Mama image.
+// Bump this route's version and the layout metadata together when the artwork changes.
 // Only the owner-supplied public photograph is used here; no diary settings or secrets.
 export const dynamic = 'force-static';
-export const alt = 'For AThel. Even on the quiet days, it’s still you. Our hands held together.';
-export const size = { width: 1200, height: 630 };
-export const contentType = 'image/png';
+const size = { width: 1200, height: 630 };
 
-export default async function PreviewImage() {
+export async function GET() {
   const photo = await readFile(join(process.cwd(), 'public/photos/hand-in-hand.jpg'));
   const src = `data:image/jpeg;base64,${photo.toString('base64')}`;
   return new ImageResponse(

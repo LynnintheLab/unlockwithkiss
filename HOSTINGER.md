@@ -70,8 +70,8 @@ The initial state is locked. `DRIVE_URL` seeds the database only on first use. A
 
 ## Link previews in messaging apps
 
-The homepage publishes Open Graph and Twitter preview tags and a public 1200×630 PNG at `/opengraph-image`. It contains a romantic message and the owner-supplied hand-holding photograph, never the Drive link or login details. The default public address is `https://loveu.lynninthelab.space`; set optional `SITE_URL` before building if you change the domain. Keep `APP_URL` set to your actual site origin for authentication.
+The homepage publishes Open Graph and Twitter preview tags pointing to the same public 1200×630 PNG at `/share/for-athel-hands-v2.png`. It contains a romantic message and the owner-supplied hand-holding photograph, never the Drive link or login details. The previous `/opengraph-image` address redirects to it. The default public address is `https://loveu.lynninthelab.space`; set optional `SITE_URL` before building if you change the domain. Keep `APP_URL` set to your actual site origin for authentication.
 
-After deploying a preview update, paste the link into a new message and allow time for the preview to load. Old messages or messaging-app caches may keep the previous preview. Preview availability and size are ultimately controlled by the messaging app and its settings.
+Messaging apps may cache the page and its image separately. When changing the preview artwork, give the image route a new versioned pathname and update both image tags in `app/layout.tsx`; changing only the page's query string can leave the old image in place. After deploying, try a fresh page URL such as `https://loveu.lynninthelab.space/?v=athel-photos-3` and wait for the preview before sending. Old messages may keep their previous preview. Preview availability and size are ultimately controlled by the messaging app and its settings.
 
 The supplied Walone Regular and Thin fonts and 21 unique landscape slideshow photos are bundled with the app. No new environment variables or database changes are needed for the personal note or slideshows.
