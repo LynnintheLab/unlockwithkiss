@@ -19,7 +19,7 @@ export default function Diary({admin=false}:{admin?:boolean}) {
   <header className="topbar"><a className="wordmark" href="/" aria-label="For AThel home"><Heart size={21} strokeWidth={1.5}/> For AThel<span className="wordmark-period">.</span></a><span className="top-note">{admin?'Just for your boy':'A little closer, even from here.'}</span>{loggedIn&&<Button variant="ghost" className="logout" onClick={()=>action('logout')} disabled={busy}><LogOut size={16}/><span>Sign out</span></Button>}</header>
   <div className="page-layout">
    <aside className="letter photo-letter">
-    <PhotoSlideshow label="Our main photo memories" className="cover-slideshow" startIndex={7} suspended={noteOpen}/>
+    <PhotoSlideshow label="Our main photo memories" className="cover-slideshow" startSrc="/slideshow/moment-08.jpg" suspended={noteOpen}/>
     <div className="letter-copy">
      <span className="letter-label">{admin?'Behind the little moments':'A little piece of my day, for you'}</span>
      <h1>{admin?<>Made for her.<br/><em>Opened by you.</em></>:<>Even on the quiet days,<br/><em>it’s still you.</em></>}</h1>

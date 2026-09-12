@@ -1,26 +1,38 @@
-// Photographs supplied for the diary slideshow.
+// Unique landscape photographs supplied for the diary slideshow.
 export const slides = [
   {
-    "src": "/slideshow/moment-01.jpg",
-    "alt": "Standing together under a leafy tree.",
-    "width": 1200,
-    "height": 1600
-  },
-  {
-    "src": "/slideshow/moment-02.jpg",
-    "alt": "Holding each other close beneath the tree.",
-    "width": 1200,
-    "height": 1600
-  },
-  {
-    "src": "/slideshow/moment-03.jpg",
-    "alt": "A kiss and an embrace in the garden.",
-    "width": 1200,
-    "height": 1600
+    "src": "/slideshow/moment-12.jpg",
+    "alt": "Together at the wooden cafe, seen through the window.",
+    "width": 1600,
+    "height": 1067
   },
   {
     "src": "/slideshow/moment-04.jpg",
     "alt": "Together inside a little wooden cafe.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-13.jpg",
+    "alt": "Holding hands with the green hills behind us.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-14.jpg",
+    "alt": "Turning toward each other on the hillside.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-15.jpg",
+    "alt": "Walking together past the grazing sheep.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-16.jpg",
+    "alt": "A breezy moment overlooking the hills.",
     "width": 1600,
     "height": 1067
   },
@@ -61,8 +73,56 @@ export const slides = [
     "height": 1067
   },
   {
+    "src": "/slideshow/moment-17.jpg",
+    "alt": "A quiet walk down the hillside path.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-18.jpg",
+    "alt": "Coming closer together along the path.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-19.jpg",
+    "alt": "Walking side by side with the hills behind us.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-20.jpg",
+    "alt": "A kiss during our walk.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-21.jpg",
+    "alt": "Smiling together along the garden path.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
     "src": "/slideshow/moment-11.jpg",
     "alt": "A kiss on the cheek with the hills behind us.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-22.jpg",
+    "alt": "A kiss beside the sunny hillside.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-23.jpg",
+    "alt": "Laughing together after a kiss.",
+    "width": 1600,
+    "height": 1067
+  },
+  {
+    "src": "/slideshow/moment-24.jpg",
+    "alt": "Sharing a kiss with the sheep nearby.",
     "width": 1600,
     "height": 1067
   }

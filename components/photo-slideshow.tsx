@@ -1,19 +1,19 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { slides } from '@/lib/slides';
 
-export function PhotoSlideshow({className='',label,startIndex=0,suspended=false}:{className?:string;label:string;startIndex?:number;suspended?:boolean}) {
-  const [index,setIndex]=useState(startIndex);
+export function PhotoSlideshow({className='',label,startSrc,suspended=false}:{className?:string;label:string;startSrc?:string;suspended?:boolean}) {
+  const startIndex=Math.max(0,slides.findIndex(slide=>slide.src===startSrc));
+  const [frame,setFrame]=useState({current:startIndex,previous:startIndex});
+  const index=frame.current;
   const [paused,setPaused]=useState(false);
   const [hovered,setHovered]=useState(false);
-  const [focused,setFocused]=useState(false);
   const [reducedMotion,setReducedMotion]=useState(true);
   const [visible,setVisible]=useState(false);
   const [pageVisible,setPageVisible]=useState(true);
   const container=useRef<HTMLDivElement>(null);
+  const images=useRef<(HTMLImageElement|null)[]>([]);
   useEffect(()=>{
     const media=window.matchMedia('(prefers-reduced-motion: reduce)');
     const update=()=>setReducedMotion(media.matches);update();media.addEventListener('change',update);
@@ -24,28 +24,30 @@ export function PhotoSlideshow({className='',label,startIndex=0,suspended=false}
   },[]);
   const playing=!paused&&!reducedMotion;
   useEffect(()=>{
-    if(!playing||hovered||focused||suspended||!visible||!pageVisible)return;
-    const timer=setInterval(()=>setIndex(i=>(i+1)%slides.length),5000);
+    if(!playing||hovered||suspended||!visible||!pageVisible)return;
+    const timer=setInterval(()=>setFrame(current=>{
+      const next=(current.current+1)%slides.length;
+      // Keep the current photograph visible until the next one has loaded.
+      const image=images.current[next];
+      return image?.complete&&image.naturalWidth>0?{current:next,previous:current.current}:current;
+    }),6000);
     return()=>clearInterval(timer);
-  },[playing,hovered,focused,suspended,visible,pageVisible]);
-  function move(offset:number){setPaused(true);setIndex(i=>(i+offset+slides.length)%slides.length);}
+  },[playing,hovered,suspended,visible,pageVisible]);
+  function move(offset:number){setPaused(true);setFrame(current=>({current:(current.current+offset+slides.length)%slides.length,previous:current.current}));}
   return <div ref={container} className={`photo-slideshow ${className}`} role="region" aria-roledescription="carousel" aria-label={label}
+    tabIndex={0} aria-description="Press Space to pause or resume the slideshow. Use the arrow keys to browse photos."
     onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)}
-    onFocusCapture={()=>setFocused(true)} onBlurCapture={e=>{if(!e.currentTarget.contains(e.relatedTarget))setFocused(false);}}>
+    onFocus={()=>setPaused(true)} onKeyDown={event=>{
+      if(event.key===' '){event.preventDefault();setPaused(value=>!value);}
+      if(event.key==='ArrowLeft'){event.preventDefault();move(-1);}
+      if(event.key==='ArrowRight'){event.preventDefault();move(1);}
+    }}>
     <div className="slide-stage" aria-live="off">
       {slides.map((slide,i)=>{
-        const nearby=i===index||i===(index+1)%slides.length||i===(index+slides.length-1)%slides.length;
-        return <img key={slide.src} className={`slide-photo${i===index?' is-active':''}`} src={nearby?slide.src:undefined}
-          width={slide.width} height={slide.height} alt={i===index?slide.alt:''} aria-hidden={i!==index} decoding="async"/>;
+        const nearby=i===index||i===frame.previous||i===(index+1)%slides.length||i===(index+slides.length-1)%slides.length;
+        return <img key={slide.src} className={`slide-photo${i===index?' is-active':i===frame.previous?' was-active':''}`} src={nearby?slide.src:undefined}
+          ref={image=>{images.current[i]=image;}} width={slide.width} height={slide.height} alt={i===index?slide.alt:''} aria-hidden={i!==index} decoding="async"/>;
       })}
-    </div>
-    <div className="slideshow-controls">
-      <span className="slide-count" aria-live={paused?'polite':'off'} aria-atomic="true">{index+1} / {slides.length}</span>
-      <div className="slide-buttons">
-        <Button type="button" variant="ghost" size="icon" aria-label="Previous photo" onClick={()=>move(-1)}><ChevronLeft size={18}/></Button>
-        {!reducedMotion&&<Button type="button" variant="ghost" size="icon" aria-label={paused?'Play slideshow':'Pause slideshow'} onClick={()=>setPaused(value=>!value)}>{paused?<Play size={16}/>:<Pause size={16}/>}</Button>}
-        <Button type="button" variant="ghost" size="icon" aria-label="Next photo" onClick={()=>move(1)}><ChevronRight size={18}/></Button>
-      </div>
     </div>
   </div>;
 }

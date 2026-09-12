@@ -74,4 +74,4 @@ The homepage publishes Open Graph and Twitter preview tags and a public 1200×63
 
 After deploying a preview update, paste the link into a new message and allow time for the preview to load. Old messages or messaging-app caches may keep the previous preview. Preview availability and size are ultimately controlled by the messaging app and its settings.
 
-The supplied Walone Regular and Thin fonts and all 11 slideshow photos are bundled with the app. No new environment variables or database changes are needed for the personal note or slideshows.
+The supplied Walone Regular and Thin fonts and 21 unique landscape slideshow photos are bundled with the app. No new environment variables or database changes are needed for the personal note or slideshows.
